@@ -1,9 +1,33 @@
 {
 	"name": "fortify",
-	"version": "1.0.0",
-	"dependencies": {},
+	"description": "A password strength indicator.",
+	"main": [
+		"dist/js/fortify.js",
+		"dist/styles/fortify.css",
+		"dist/styles/fortify.less",
+		"dist/styles/fortify.scss"
+	],
+	"dependencies": {
+		"jquery": ">=1.7"
+	},
 	"devDependencies": {
-		"qunit": "~1.12.0",
-		"jquery": "latest"
-	}
+		"qunit": "~1.12.0"
+	},
+	"keywords": [
+		"jquery",
+		"jquery-plugin",
+		"password"
+	],
+	"authors": [
+		"Adam MacDonald-Corrao <adam@adammy.com>"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		"tests"
+	],
+	"homepage": "https://github.com/adammy/fortify"
 }
