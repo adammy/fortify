@@ -1,0 +1,32 @@
+$fortify-weak: #bf360c;
+$fortify-okay: #f57c00;
+$fortify-good: #7cb342;
+$fortify-strong: #558b2f;
+
+.fortify-bar {
+  background: #ccc;
+}
+.fortify {
+  color: #fff;
+  font-size: 1em;
+  padding: 0.5em 1em;
+  margin: 1em 0;
+  display: block;
+  min-width: 20%;
+  &-weak {
+    background: $fortify-weak;
+  }
+  &-okay {
+    background: $fortify-okay;
+  }
+  &-good {
+    background: $fortify-good;
+  }
+  &-strong {
+    background: $fortify-strong;
+    width: 100% !important;
+  }
+  &-nothing {
+    display: none;
+  }
+}

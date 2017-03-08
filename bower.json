@@ -2,10 +2,10 @@
 	"name": "fortify",
 	"description": "A password strength indicator.",
 	"main": [
-		"dist/js/fortify.js",
-		"dist/styles/fortify.css",
-		"dist/styles/fortify.less",
-		"dist/styles/fortify.scss"
+		"src/fortify.js",
+		"src/fortify.css",
+		"src/fortify.less",
+		"src/fortify.scss"
 	],
 	"dependencies": {
 		"jquery": ">=1.7"
