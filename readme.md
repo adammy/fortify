@@ -7,16 +7,16 @@
 
 Download the [production version][min] or the [development version][max].
 
-[min]: https://raw.githubusercontent.com/adammy/jquery-fortify-js/master/dist/jquery.fortify-js.min.js
-[max]: https://raw.githubusercontent.com/adammy/jquery-fortify-js/master/dist/jquery.fortify-js.js
+[min]: https://raw.githubusercontent.com/adammy/fortify/master/dist/fortify.min.js
+[max]: https://raw.githubusercontent.com/adammy/fortify/master/dist/fortify.js
 
 In your web page:
 
 ```html
 <script src="jquery.js"></script>
-<script src="dist/fortify-js.min.js"></script>
+<script src="dist/fortify.min.js"></script>
 <script>
-  $('#password').fortify(); // "awesome"
+  $('#password').fortify();
 </script>
 ```
 
