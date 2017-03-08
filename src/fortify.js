@@ -17,11 +17,11 @@
 
 		 // setting plugin defaults
 		 var settings = $.extend({
-			 callback: undefined,
 			 debug: false,
 			 feedback: true,
 			 keyTimeout: 150,
-			 progressbar: true
+			 progressBar: true,
+			 callback: undefined
 		 }, options),
 		 field = this,
 		 timeout;
@@ -99,7 +99,7 @@
 						 return (className.match(/(^|\s)fortify-\S+/g) || []).join(' ');
 					 }).addClass('fortify-' + feedback).text(feedback.capitalize());
 
-					 if (settings.progressbar) {
+					 if (settings.progressBar) {
 						 $('.fortify').css('width', score + '%');
 					 }
 
