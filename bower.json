@@ -27,7 +27,15 @@
 		"node_modules",
 		"bower_components",
 		"test",
-		"tests"
+		".editorconfig",
+		".gitignore",
+		".jshintrc",
+		".travis.yml",
+		"bower.json",
+		"contributing.md",
+		"gruntfile.js",
+		"package.json",
+		"readme.md"
 	],
 	"homepage": "https://github.com/adammy/fortify"
 }
