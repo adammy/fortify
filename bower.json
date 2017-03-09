@@ -3,9 +3,9 @@
 	"description": "A password strength indicator.",
 	"main": [
 		"src/fortify.js",
-		"src/fortify.css",
 		"src/fortify.less",
-		"src/fortify.scss"
+		"src/fortify.scss",
+		"src/fortify.sass"
 	],
 	"dependencies": {
 		"jquery": ">=1.7"
