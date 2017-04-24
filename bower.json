@@ -1,5 +1,5 @@
 {
-	"name": "fortify",
+	"name": "fortify-js",
 	"description": "A password strength indicator.",
 	"main": [
 		"src/fortify.js",
@@ -14,7 +14,6 @@
 		"qunit": "~1.12.0"
 	},
 	"keywords": [
-		"jquery",
 		"jquery-plugin",
 		"password"
 	],
@@ -30,7 +29,6 @@
 		".editorconfig",
 		".gitignore",
 		".jshintrc",
-		".travis.yml",
 		"bower.json",
 		"contributing.md",
 		"gruntfile.js",

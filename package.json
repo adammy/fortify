@@ -1,9 +1,10 @@
 {
-	"name": "fortify",
-	"version": "1.0.0",
+	"name": "fortify-js",
+	"version": "1.0.3",
 	"description": "A password strength indicator.",
 	"keywords": [
-		"jquery-plugin"
+		"jquery-plugin",
+		"password"
 	],
 	"author": {
 		"name": "Adam MacDonald-Corrao",

@@ -1,14 +1,3 @@
-/*
- * Fortify.js
- * Version: 1.0.0
- * Author: Adam MacDonald-Corrao
- * Site: adammy.com
- * Docs: adammy.github.io/fortify
- * Repo: http://github.com/adammy/fortify
- * Issues: http://github.com/adammy/fortify/issues
- * Licensed under the MIT license.
- */
-
  ;(function ($, undefined) {
 
 	 'use strict';
@@ -27,8 +16,6 @@
 		 timeout;
 
 		 function calculatePasswordStrength (password) {
-
-			 // help from http://stackoverflow.com/questions/948172/password-strength-meter
 
 			 var score = 0;
 			 if (!password) {
