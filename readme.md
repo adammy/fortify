@@ -11,8 +11,18 @@ Fortify is a jQuery plugin that gives your users feedback on how strong their pa
 bower install fortify --save
 ```
 
+#### Install via NPM
+```sh
+npm install fortify-js --save
+```
+
+#### Install via Yarn
+```sh
+yarn add fortify-js
+```
+
 #### CDN
-Coming soon...
+Coming soon.
 
 #### Download
 Download the development version or the minified production version.
