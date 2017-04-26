@@ -1,10 +1,10 @@
 # Fortify.js
-## A password strength indicator.
+### A password strength indicator.
 
-### Demo
+#### Demo
 [http://codepen.io/adammy/pen/dNmGmr](http://codepen.io/adammy/pen/dNmGmr)
 
-### CDN
+#### CDN
 Add a link to the css file in your `<head>`:
 ```html
 <link rel="stylesheet" href="//cdn.jsdelivr.net/fortify/1.0.4/fortify.min.css">
@@ -15,24 +15,24 @@ Then, before your closing `<body>` tag add:
 <script type="text/javascript" src="//cdn.jsdelivr.net/fortify/1.0.4/fortify.min.js"></script>
 ```
 
-### Package Managers
+#### Package Managers
 
-#### Bower
+##### Bower
 ```sh
 bower install fortify --save
 ```
 
-#### NPM
+##### NPM
 ```sh
 npm install fortify-js --save
 ```
 
-#### Yarn
+##### Yarn
 ```sh
 yarn add fortify-js
 ```
 
-### Usage
+#### Usage
 Reference the fortify method on your password input field like so:
 ```html
 <input type="password" id="password" />
@@ -41,7 +41,7 @@ Reference the fortify method on your password input field like so:
 $("#password").fortify();
 ```
 
-#### Settings
+##### Settings
 When calling the fortify method, you can pass it an object to overwrite some settings. See below:
 ```javascript
 $('#password').fortify({
