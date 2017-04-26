@@ -1,42 +1,39 @@
 # Fortify.js
-**A password strength indicator.**
+## A password strength indicator.
 
-Fortify is a jQuery plugin that gives your users feedback on how strong their password is as they enter it into your registration form.
-
-#### Demo
+### Demo
 [http://codepen.io/adammy/pen/dNmGmr](http://codepen.io/adammy/pen/dNmGmr)
 
-#### Install via Bower
+### CDN
+Add a link to the css file in your `<head>`:
+```html
+<link rel="stylesheet" href="//cdn.jsdelivr.net/fortify/1.0.4/fortify.min.css">
+```
+
+Then, before your closing `<body>` tag add:
+```html
+<script type="text/javascript" src="//cdn.jsdelivr.net/fortify/1.0.4/fortify.min.js"></script>
+```
+
+### Package Managers
+
+#### Bower
 ```sh
 bower install fortify --save
 ```
 
-#### Install via NPM
+#### NPM
 ```sh
 npm install fortify-js --save
 ```
 
-#### Install via Yarn
+#### Yarn
 ```sh
 yarn add fortify-js
 ```
 
-#### CDN
-Coming soon.
-
-#### Download
-Download the development version or the minified production version.
-
-## Basic Usage
-1. Place fortify.js and fortify.css on your site. jQuery is a dependency for Fortify, so make sure to include it.
-```html
-<link rel="stylesheet" href="fortify.css" />
-```
-```html
-<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="fortify.js"></script>
-```
-2. Reference the fortify method on your password input field.
+### Usage
+Reference the fortify method on your password input field like so:
 ```html
 <input type="password" id="password" />
 ```
@@ -44,8 +41,8 @@ Download the development version or the minified production version.
 $("#password").fortify();
 ```
 
-## Settings
-When calling fortify, you can pass it an object to overwrite some settings. An example is below:
+#### Settings
+When calling the fortify method, you can pass it an object to overwrite some settings. See below:
 ```javascript
 $('#password').fortify({
   debug: false,
@@ -57,6 +54,7 @@ $('#password').fortify({
   }
 });
 ```
+
 Details of each setting are below:
 
 **debug** (boolean)<br />
