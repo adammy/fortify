@@ -7,8 +7,7 @@ const gulp = require('gulp'),
 gulp.task('babel', () => {
 	gulp.src('src/**/*.js')
 		.pipe(babel({
-			presets: ['env', 'minify'],
-			plugins: ['iife-wrap']
+			presets: ['env', 'minify']
 		}))
 		.pipe(rename({
 			suffix: '.min'
