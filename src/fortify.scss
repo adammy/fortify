@@ -13,6 +13,7 @@ $fortify-strong: #558b2f;
   margin: 1em 0;
   display: block;
   min-width: 20%;
+	transition: all 0.2s ease;
   &-weak {
     background: $fortify-weak;
   }

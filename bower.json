@@ -1,0 +1,30 @@
+{
+	"name": "fortify-js",
+	"description": "A password strength indicator.",
+	"main": [
+		"src/fortify.js",
+		"src/fortify.less",
+		"src/fortify.scss",
+		"src/fortify.sass"
+	],
+	"keywords": [
+		"password",
+		"strength",
+		"js",
+		"fortify"
+	],
+	"authors": [
+		"Adam MacDonald-Corrao <adammacdonaldcorrao@gmail.com> (http://adammy.com)"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test",
+		".gitignore",
+		"package.json",
+		"readme.md"
+	],
+	"homepage": "https://github.com/adammy/fortify-js"
+}

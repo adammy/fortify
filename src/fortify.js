@@ -1,109 +1,109 @@
- ;(function ($, undefined) {
+class Fortify {
 
-	 'use strict';
+	constructor(field, options) {
+		const defaults = {
+			feedback: true,
+			keyTimeout: 150,
+			progressBar: true,
+			callback: null
+		};
+		this.field = field;
+		this.options = Object.assign(defaults, options);
+		this.init();
+	}
 
-	 $.fn.fortify = function (options) {
+	getPasswordScore(password) {
 
-		 // setting plugin defaults
-		 var settings = $.extend({
-			 debug: false,
-			 feedback: true,
-			 keyTimeout: 150,
-			 progressBar: true,
-			 callback: undefined
-		 }, options),
-		 field = this,
-		 timeout;
+		if (!password) return { score: 0, feedback: 'nothing' }
 
-		 function calculatePasswordStrength (password) {
+		let score = 0;
+		let scoreStr;
 
-			 var score = 0;
-			 if (!password) {
-				 return score;
-			 }
+		/*
+			add points to score for every unique char
+			score added is lowered with each subsequent use of the same character
+		*/
+		let letterMap = {};
+		password.split('').forEach(letter => {
+			letterMap[letter] = (letterMap[letter] || 0) + 1;
+			score += (5.0 / letterMap[letter]);
+		});
 
-			 // add points to score for every unique letter until 5 repetitions
-			 var letters = {};
-			 for (var i = 0; i < password.length; i++) {
-				 letters[password[i]] = (letters[password[i]] || 0) + 1;
-				 score += 5.0 / letters[password[i]];
-			 }
+		// multiply score based on variations used, e.g. lower and upper, special chars, and numbers
+		let variations = {
+			digits: /\d/.test(password),
+			lower: /[a-z]/.test(password),
+			upper: /[A-Z]/.test(password),
+			nonWords: /\W/.test(password)
+		},
+		variationPasses = 0;
+		for (let variance in variations) {
+			variationPasses += (variations[variance] === true) ? 1 : 0;
+		}
+		score += (variationPasses - 1) * 10;
 
-			 // multipliers for using variations
-			 var variations = {
-				 digits: /\d/.test(password),
-				 lower: /[a-z]/.test(password),
-				 upper: /[A-Z]/.test(password),
-				 nonWords: /\W/.test(password)
-			 },
-			 variationCount = 0;
-			 for (var check in variations) {
-				 variationCount += (variations[check] === true) ? 1 : 0;
-			 }
-			 score += (variationCount - 1) * 10;
+		// set the user-friendly score string
+		if (score === 0) scoreStr = 'nothing';
+		else if (score > 80) scoreStr = 'strong';
+		else if (score > 60 && score <= 80) scoreStr = 'good';
+		else if (score > 30 && score <= 60) scoreStr = 'okay';
+		else scoreStr = 'weak';
 
-			 return parseInt(score);
+		return {
+			score: parseInt(score),
+			feedback: scoreStr
+		};
 
-		 }
+	}
 
-		 function calculateScoreString (score) {
+	init() {
 
-			 if (score === 0) {
-				 return 'nothing';
-			 } else if (score > 80) {
-				 return 'strong';
-			 } else if (score > 60) {
-				 return 'good';
-			 } else if (score > 30) {
-				 return 'okay';
-			 } else {
-				 return 'weak';
-			 }
+		// initialize and set props for dom elements
+		const fortifyBar = document.createElement('div');
+		fortifyBar.className = 'fortify-bar';
+		const fortifyInner = document.createElement('div');
+		fortifyInner.className = 'fortify fortify-nothing';
+		fortifyBar.appendChild(fortifyInner);
+		this.field.parentNode.insertBefore(fortifyBar, this.field.nextSibling);
 
-		 }
+		// init _this for usage in eventListener
+		const _this = this;
 
-		 String.prototype.capitalize = function () {
-			 return this.charAt(0).toUpperCase() + this.slice(1);
-		 };
+		// init timeout to allow for clearing
+		let timeout;
 
-		 // add feedback div after field
-		 field.after('<div class=\"fortify-bar\"><div class=\"fortify fortify-nothing\"></div></div>');
+		// execute on change of password
+		function handleChange() {
 
-		 field.on('keypress keyup keydown', function () {
+			if (timeout) clearTimeout(timeout);
 
-			 if (timeout) {
-				 clearTimeout(timeout);
-			 }
+			timeout = setTimeout(function () {
 
-			 timeout = setTimeout(function () {
+				const scoreObj = _this.getPasswordScore(_this.field.value),
+					score = scoreObj.score,
+					feedback = scoreObj.feedback;
 
-				 var score = calculatePasswordStrength(field.val());
-				 var feedback = calculateScoreString(score);
+				if (_this.options.feedback) {
+					fortifyInner.className = `fortify fortify-${feedback}`;
+					fortifyInner.textContent = capitalize(feedback);
+					if (_this.options.progressBar) {
+						fortifyInner.style.width = `${score}%`;
+					}
+				}
+				if (_this.options.callback) {
+					_this.options.callback(score, feedback);
+				}
+			}, _this.options.keyTimeout);
+		}
 
-				 if (settings.feedback) {
+		this.field.addEventListener('keypress', handleChange);
+		this.field.addEventListener('keyup', handleChange);
+		this.field.addEventListener('keydown', handleChange);
 
-					 $('.fortify').removeClass(function (index, className) {
-						 return (className.match(/(^|\s)fortify-\S+/g) || []).join(' ');
-					 }).addClass('fortify-' + feedback).text(feedback.capitalize());
+	}
 
-					 if (settings.progressBar) {
-						 $('.fortify').css('width', score + '%');
-					 }
+}
 
-				 }
-
-				 if (settings.debug) {
-					 console.log(feedback + ' : Score is ' + score);
-				 }
-
-				 if (settings.callback) {
-					 settings.callback(score, feedback);
-				 }
-
-			 }, settings.keyTimeout);
-
-		 });
-
-	 };
-
- }(jQuery));
+function capitalize(str) {
+	return str.charAt(0).toUpperCase() + str.slice(1);
+}

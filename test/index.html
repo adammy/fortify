@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Fortify.js Development Testing</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700">
+	<link rel="stylesheet" href="fortify.min.css">
+	<style>
+		html {
+		  min-height: 100%;
+		}
+
+		body {
+		  background: #00b5ec;
+		  background: -webkit-linear-gradient(top left, #00b5ec 0%, #53e3a6 100%);
+		  background: linear-gradient(to bottom right, #00b5ec 0%, #53e3a6 100%);
+		  font-size: 20px;
+		  font-family: "Montserrat";
+		  padding: 8em 5em 5em;
+		  min-height: 100%;
+		}
+		@media (max-width: 800px) {
+		  body {
+		    padding: 2em 1em;
+		  }
+		}
+
+		.form-control {
+		  font-size: 1em;
+		  border-radius: 0;
+		  padding: 1em;
+		  height: auto;
+		}
+
+		.fortify-well {
+		  box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+		  width: 90%;
+		  max-width: 700px;
+		  margin: 0 auto;
+		}
+		.fortify-well .heading {
+		  background: #222;
+		  color: #fff;
+		  padding: 1.5em;
+		}
+		.fortify-well .content {
+		  background: #fff;
+		  padding: 2em;
+		}
+		.fortify-well .links {
+		  background: #f3f3f3;
+		  color: #888;
+		  font-size: 0.75em;
+		  text-transform: uppercase;
+		  padding: 1em 2em;
+		}
+		.fortify-well .links a {
+		  color: #00b5ec;
+		}
+
+		.fortify-bar {
+		  background: #ccc;
+		}
+
+		h1 {
+		  margin-bottom: 0.25em;
+		}
+
+		h2 {
+		  font-size: 1.1em;
+		}
+	</style>
+</head>
+<body>
+
+	<div class="fortify-well">
+		<div class="heading text-center">
+			<h1>Fortify.js</h1>
+			<h2>A Password Strength Indicator</h2>
+		</div>
+		<div class="content">
+			<div class="form-group">
+				<input type="password" class="form-control" id="password" autocomplete="off" placeholder="Password" />
+			</div>
+		</div>
+		<div class="links text-center">
+			<a href="https://github.com/adammy/fortify-js" target="_blank">Documentation &amp; Repo</a>
+		</div>
+	</div>
+
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+	<script src="fortify.js"></script>
+	<script>
+		var field = document.getElementById('password');
+		var fortify = new Fortify(field);
+	</script>
+
+</body>
+</html>
