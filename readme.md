@@ -7,29 +7,24 @@
 #### CDN
 Add a link to the css file in your `<head>`:
 ```html
-<link rel="stylesheet" href="//cdn.jsdelivr.net/fortify/1.0.4/fortify.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fortify-js@2.0.1/dist/fortify.min.css">
 ```
 
 Then, before your closing `<body>` tag add:
 ```html
-<script type="text/javascript" src="//cdn.jsdelivr.net/fortify/1.0.4/fortify.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fortify-js@2.0.1/dist/fortify.min.js"></script>
 ```
 
 #### Package Managers
-
-##### Bower
-```sh
-bower install fortify --save
-```
 
 ##### NPM
 ```sh
 npm install fortify-js --save
 ```
 
-##### Yarn
+##### Bower
 ```sh
-yarn add fortify-js
+bower install fortify --save
 ```
 
 #### Usage
@@ -38,28 +33,24 @@ Reference the fortify method on your password input field like so:
 <input type="password" id="password" />
 ```
 ```javascript
-$("#password").fortify();
+var field = document.getElementById('password');
+var fortify = new Fortify(field);
 ```
 
 ##### Settings
 When calling the fortify method, you can pass it an object to overwrite some settings. See below:
 ```javascript
-$('#password').fortify({
-  debug: false,
-  feedback: true,
-  keyTimeout: 150,
-  progressBar: true,
-  callback: function (score, feedback) {
-    // your code
-  }
+var fortify = new Fortify(field, {
+	feedback: true,
+	keyTimeout: 150,
+	progressBar: true,
+	callback: function (score, feedback) {
+		// your code
+	}
 });
 ```
 
 Details of each setting are below:
-
-**debug** (boolean)<br />
-Default value: false<br />
-If true, the password score will be logged to the console on each keypress.
 
 **feedback** (boolean)<br />
 Default value: true<br />
