@@ -38,7 +38,7 @@ var fortify = new Fortify(field);
 ```
 
 ##### Settings
-When calling the fortify method, you can pass it an object to overwrite some settings. See below:
+When calling the Fortify constructor, you can pass it an object to overwrite some settings. See below:
 ```javascript
 var fortify = new Fortify(field, {
 	feedback: true,
