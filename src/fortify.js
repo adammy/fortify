@@ -119,7 +119,7 @@
 		else scoreStr = 'weak';
 
 		return {
-			score: parseInt(score),
+			number: parseInt(score),
 			feedback: scoreStr
 		};
 
@@ -145,11 +145,11 @@
 				_.innerBar.className = `fortify fortify-${score.feedback}`;
 				_.innerBar.textContent = capitalize(score.feedback);
 				if (_.settings.progressBar) {
-					_.innerBar.style.width = `${score.score}%`;
+					_.innerBar.style.width = `${score.number}%`;
 				}
 			}
 			if (_.settings.callback) {
-				_.settings.callback(score.score, score.feedback);
+				_.settings.callback(score.number, score.feedback);
 			}
 		}, _.settings.keyTimeout);
 
@@ -182,7 +182,7 @@
 					_.confirmInnerBar.textContent = 'There is nothing in the password field';
 					return;
 				} else if (_.field.value === _.confirmField.value) {
-					if (score.score <= 60) {
+					if (score.number <= 60) {
 						_.confirmInnerBar.className = `fortify fortify-${score.feedback}`;
 						_.confirmInnerBar.textContent = `Password matches, but it is not particularly good`;
 					} else {
@@ -209,7 +209,7 @@
 		const _ = e.target.self;
 		if (!_.settings.allowSubmission) {
 			const score = getPasswordScore(_.field.value);
-			if (score.score <= 60 || _.field.value != _.confirmField.value) {
+			if (score.number <= 60 || _.field.value != _.confirmField.value) {
 				e.preventDefault();
 			}
 		}
