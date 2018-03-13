@@ -7,12 +7,12 @@
 #### CDN
 Add a link to the css file in your `<head>`:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fortify-js@2.1.0/dist/fortify.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fortify-js@2.2.0/dist/fortify.min.css">
 ```
 
 Then, before your closing `<body>` tag add:
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fortify-js@2.1.0/dist/fortify.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fortify-js@2.2.0/dist/fortify.min.js"></script>
 ```
 
 #### Package Managers
@@ -28,19 +28,26 @@ bower install fortify --save
 ```
 
 #### Usage
-Reference the fortify method on your password input field like so:
+Reference the fortify method on your password input fields like so:
 ```html
-<input type="password" id="password" />
+<div>
+	<input type="password" id="password" />
+</div>
+<div>
+	<input type="password" id="confirm-password" />
+</div>
 ```
 ```javascript
 var field = document.getElementById('password');
-var fortify = new Fortify(field);
+var confirmField = document.getElementById('confirm-password');
+var fortify = new Fortify(field, confirmField);
 ```
 
 ##### Settings
 When calling the Fortify constructor, you can pass it an object to overwrite some settings. See below:
 ```javascript
-var fortify = new Fortify(field, {
+var fortify = new Fortify(field, confirmField, {
+	allowSubmission: true,
 	feedback: true,
 	keyTimeout: 150,
 	progressBar: true,
@@ -51,6 +58,10 @@ var fortify = new Fortify(field, {
 ```
 
 Details of each setting are below:
+
+**allowSubmission** (boolean)<br />
+Default value: true<br />
+If true, the parent form to your <input> fields can freely submit without interference from Fortify. If false, the form can only be submitted when the password is at least 'good' and the confirm password field matches the password field.
 
 **feedback** (boolean)<br />
 Default value: true<br />
