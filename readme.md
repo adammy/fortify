@@ -7,12 +7,12 @@
 #### CDN
 Add a link to the css file in your `<head>`:
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fortify-js@2.2.0/dist/fortify.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fortify-js@2.2.1/dist/fortify.min.css">
 ```
 
 Then, before your closing `<body>` tag add:
 ```html
-<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fortify-js@2.2.0/dist/fortify.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/fortify-js@2.2.1/dist/fortify.min.js"></script>
 ```
 
 #### Package Managers
