@@ -1,18 +1,87 @@
-class Fortify {
+(function () {
 
-	constructor(field, options) {
+	/*
+	 * constructor
+	 * @public
+	 * @param {Element} field - the password <input> field that the user is entering their password on
+	 * @param {Object} settings - use to overwrite default settings
+	 */
+	this.Fortify = function (field, confirmField, settings = {}) {
+
+		// default settings
 		const defaults = {
+			allowSubmission: true,
+			callback: null,
 			feedback: true,
 			keyTimeout: 150,
-			progressBar: true,
-			callback: null
+			progressBar: true
 		};
+
+		// props
 		this.field = field;
-		this.options = Object.assign(defaults, options);
-		this.init();
+		this.confirmField = confirmField;
+		this.form = this.field.form;
+		this.settings = extendDefaults(defaults, settings);
+		this.bar = document.createElement('div');
+		this.innerBar = document.createElement('div');
+		this.confirmBar = document.createElement('div');
+		this.confirmInnerBar = document.createElement('div');
+
+		// apply class names to dom elements
+		this.bar.className = 'fortify-bar';
+		this.innerBar.className = 'fortify fortify-nothing';
+		this.confirmBar.className = 'fortify-bar';
+		this.confirmInnerBar.className = 'fortify fortify-nothing';
+
+		// insert elements into dom
+		this.bar.appendChild(this.innerBar);
+		this.field.parentNode.insertBefore(this.bar, this.field.nextSibling);
+		this.confirmBar.appendChild(this.confirmInnerBar);
+		this.confirmField.parentNode.insertBefore(this.confirmBar, this.confirmField.nextSibling);
+
+		// for use in private event handler functions (referenced as event.target.self)
+		this.field.self = this;
+		this.confirmField.self = this;
+		this.form.self = this;
+
+		// add event listeners
+		this.field.addEventListener('keypress', handleChange);
+		this.field.addEventListener('keyup', handleChange);
+		this.field.addEventListener('keydown', handleChange);
+		this.field.addEventListener('keypress', handleConfirmChange);
+		this.field.addEventListener('keyup', handleConfirmChange);
+		this.field.addEventListener('keydown', handleConfirmChange);
+		this.confirmField.addEventListener('keypress', handleConfirmChange);
+		this.confirmField.addEventListener('keyup', handleConfirmChange);
+		this.confirmField.addEventListener('keydown', handleConfirmChange);
+		this.form.addEventListener('submit', handleSubmit);
+
+	};
+
+	/*
+	 * given two objects, will seek to overwrite first object with anything provided in the second object
+	 * alternative to Object.assign() which doesn't work in IE apparently
+	 * @private
+	 * @param {Object} source - source object to be modified
+	 * @param {Object} updates - object with updated values
+	 * @returns {Object}
+	 */
+	function extendDefaults(source, properties) {
+		for (property in properties) {
+			if (properties.hasOwnProperty(property)) {
+				source[property] = properties[property];
+			}
+		}
+		return source;
 	}
 
-	getPasswordScore(password) {
+	/*
+	 * returns a score and string for interface elements to utilize
+	 * @private
+	 * @param {String} password - the password the user enters into the field
+	 * @returns {Object}
+	 */
+	function getPasswordScore(password) {
 
 		if (!password) return { score: 0, feedback: 'nothing' }
 
@@ -20,8 +89,8 @@ class Fortify {
 		let scoreStr;
 
 		/*
-			add points to score for every unique char
-			score added is lowered with each subsequent use of the same character
+		add points to score for every unique char
+		score added is lowered with each subsequent use of the same character
 		*/
 		let letterMap = {};
 		password.split('').forEach(letter => {
@@ -54,56 +123,106 @@ class Fortify {
 			feedback: scoreStr
 		};
 
-	}
+	};
 
-	init() {
+	/*
+	 * event handler for this.field on keypress, keyup, and keydown
+	 * @private
+	 * @param {Event} e
+	 */
+	function handleChange(e) {
 
-		// initialize and set props for dom elements
-		const fortifyBar = document.createElement('div');
-		fortifyBar.className = 'fortify-bar';
-		const fortifyInner = document.createElement('div');
-		fortifyInner.className = 'fortify fortify-nothing';
-		fortifyBar.appendChild(fortifyInner);
-		this.field.parentNode.insertBefore(fortifyBar, this.field.nextSibling);
+		const _ = e.target.self;
 
-		// init _this for usage in eventListener
-		const _this = this;
-
-		// init timeout to allow for clearing
 		let timeout;
+		if (timeout) clearTimeout(timeout);
 
-		// execute on change of password
-		function handleChange() {
+		timeout = setTimeout(function () {
 
-			if (timeout) clearTimeout(timeout);
+			const score = getPasswordScore(_.field.value);
 
-			timeout = setTimeout(function () {
-
-				const scoreObj = _this.getPasswordScore(_this.field.value),
-					score = scoreObj.score,
-					feedback = scoreObj.feedback;
-
-				if (_this.options.feedback) {
-					fortifyInner.className = `fortify fortify-${feedback}`;
-					fortifyInner.textContent = capitalize(feedback);
-					if (_this.options.progressBar) {
-						fortifyInner.style.width = `${score}%`;
-					}
+			if (_.settings.feedback) {
+				_.innerBar.className = `fortify fortify-${score.feedback}`;
+				_.innerBar.textContent = capitalize(score.feedback);
+				if (_.settings.progressBar) {
+					_.innerBar.style.width = `${score.score}%`;
 				}
-				if (_this.options.callback) {
-					_this.options.callback(score, feedback);
-				}
-			}, _this.options.keyTimeout);
-		}
-
-		this.field.addEventListener('keypress', handleChange);
-		this.field.addEventListener('keyup', handleChange);
-		this.field.addEventListener('keydown', handleChange);
+			}
+			if (_.settings.callback) {
+				_.settings.callback(score.score, score.feedback);
+			}
+		}, _.settings.keyTimeout);
 
 	}
 
-}
+	/*
+	 * event handler for this.confirmField on keypress, keyup, and keydown
+	 * @private
+	 * @param {Event} e
+	 */
+	function handleConfirmChange(e) {
 
-function capitalize(str) {
-	return str.charAt(0).toUpperCase() + str.slice(1);
-}
+		const _ = e.target.self;
+
+		let timeout;
+		if (timeout) clearTimeout(timeout);
+
+		timeout = setTimeout(function () {
+
+			const score = getPasswordScore(_.field.value);
+
+			if (_.settings.feedback) {
+
+				if (!_.confirmField.value) {
+					_.confirmInnerBar.className = `fortify fortify-nothing`;
+					_.confirmInnerBar.textContent = '';
+					return;
+				} else if (!_.field.value) {
+					_.confirmInnerBar.className = `fortify fortify-weak`;
+					_.confirmInnerBar.textContent = 'There is nothing in the password field';
+					return;
+				} else if (_.field.value === _.confirmField.value) {
+					if (score.score <= 60) {
+						_.confirmInnerBar.className = `fortify fortify-${score.feedback}`;
+						_.confirmInnerBar.textContent = `Password matches, but it is not particularly good`;
+					} else {
+						_.confirmInnerBar.className = `fortify fortify-${score.feedback}`;
+						_.confirmInnerBar.textContent = 'Password matches';
+					}
+				} else {
+					_.confirmInnerBar.className = `fortify fortify-weak`;
+					_.confirmInnerBar.textContent = 'The passwords do not match';
+				}
+
+			}
+
+		}, _.settings.keyTimeout);
+
+	}
+
+	/*
+	 * event handler for this.form on submit
+	 * @private
+	 * @param {Event} e
+	 */
+	function handleSubmit(e) {
+		const _ = e.target.self;
+		if (!_.settings.allowSubmission) {
+			const score = getPasswordScore(_.field.value);
+			if (score.score <= 60 || _.field.value != _.confirmField.value) {
+				e.preventDefault();
+			}
+		}
+	}
+
+	/*
+	 * returns a capitalized string
+	 * @private
+	 * @param {String} str - the string to be capitalized
+	 * @returns {String}
+	 */
+	function capitalize(str) {
+		return str.charAt(0).toUpperCase() + str.slice(1);
+	}
+
+}());
