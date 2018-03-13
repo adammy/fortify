@@ -1,6 +1,6 @@
 {
   "name": "fortify-js",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "A password strength indicator.",
   "main": [
     "src/fortify.js",
@@ -18,13 +18,11 @@
   "repository": "https://github.com/adammy/fortify-js.git",
   "license": "MIT",
   "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-minify": "^0.3.0",
-    "babel-preset-env": "^1.6.1",
     "gulp": "^3.9.1",
     "gulp-babel": "^7.0.1",
     "gulp-connect": "^5.5.0",
     "gulp-rename": "^1.2.2",
-    "gulp-sass": "^3.1.0"
+    "gulp-sass": "^3.1.0",
+    "gulp-uglify": "^3.0.0"
   }
 }

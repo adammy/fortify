@@ -6,10 +6,10 @@
 	 * @param {Element} field - the password <input> field that the user is entering their password on
 	 * @param {Object} settings - use to overwrite default settings
 	 */
-	this.Fortify = function (field, confirmField, settings = {}) {
+	this.Fortify = function (field, confirmField, settings) {
 
 		// default settings
-		const defaults = {
+		var defaults = {
 			allowSubmission: true,
 			callback: null,
 			feedback: true,
@@ -85,28 +85,28 @@
 
 		if (!password) return { score: 0, feedback: 'nothing' }
 
-		let score = 0;
-		let scoreStr;
+		var score = 0;
+		var scoreStr;
 
 		/*
 		add points to score for every unique char
 		score added is lowered with each subsequent use of the same character
 		*/
-		let letterMap = {};
-		password.split('').forEach(letter => {
+		var letterMap = {};
+		password.split('').forEach(function (letter) {
 			letterMap[letter] = (letterMap[letter] || 0) + 1;
 			score += (5.0 / letterMap[letter]);
 		});
 
 		// multiply score based on variations used, e.g. lower and upper, special chars, and numbers
-		let variations = {
+		var variations = {
 			digits: /\d/.test(password),
 			lower: /[a-z]/.test(password),
 			upper: /[A-Z]/.test(password),
 			nonWords: /\W/.test(password)
 		},
 		variationPasses = 0;
-		for (let variance in variations) {
+		for (var variance in variations) {
 			variationPasses += (variations[variance] === true) ? 1 : 0;
 		}
 		score += (variationPasses - 1) * 10;
@@ -132,20 +132,20 @@
 	 */
 	function handleChange(e) {
 
-		const _ = e.target.self;
+		var _ = e.target.self;
 
-		let timeout;
+		var timeout;
 		if (timeout) clearTimeout(timeout);
 
 		timeout = setTimeout(function () {
 
-			const score = getPasswordScore(_.field.value);
+			var score = getPasswordScore(_.field.value);
 
 			if (_.settings.feedback) {
-				_.innerBar.className = `fortify fortify-${score.feedback}`;
+				_.innerBar.className = 'fortify fortify-' + score.feedback;
 				_.innerBar.textContent = capitalize(score.feedback);
 				if (_.settings.progressBar) {
-					_.innerBar.style.width = `${score.number}%`;
+					_.innerBar.style.width = score.number + '%';
 				}
 			}
 			if (_.settings.callback) {
@@ -162,35 +162,35 @@
 	 */
 	function handleConfirmChange(e) {
 
-		const _ = e.target.self;
+		var _ = e.target.self;
 
-		let timeout;
+		var timeout;
 		if (timeout) clearTimeout(timeout);
 
 		timeout = setTimeout(function () {
 
-			const score = getPasswordScore(_.field.value);
+			var score = getPasswordScore(_.field.value);
 
 			if (_.settings.feedback) {
 
 				if (!_.confirmField.value) {
-					_.confirmInnerBar.className = `fortify fortify-nothing`;
+					_.confirmInnerBar.className = 'fortify fortify-nothing';
 					_.confirmInnerBar.textContent = '';
 					return;
 				} else if (!_.field.value) {
-					_.confirmInnerBar.className = `fortify fortify-weak`;
+					_.confirmInnerBar.className = 'fortify fortify-weak';
 					_.confirmInnerBar.textContent = 'There is nothing in the password field';
 					return;
 				} else if (_.field.value === _.confirmField.value) {
 					if (score.number <= 60) {
-						_.confirmInnerBar.className = `fortify fortify-${score.feedback}`;
-						_.confirmInnerBar.textContent = `Password matches, but it is not particularly good`;
+						_.confirmInnerBar.className = 'fortify fortify-' + score.feedback;
+						_.confirmInnerBar.textContent = 'Password matches, but it is not particularly good';
 					} else {
-						_.confirmInnerBar.className = `fortify fortify-${score.feedback}`;
+						_.confirmInnerBar.className = 'fortify fortify-' + score.feedback;
 						_.confirmInnerBar.textContent = 'Password matches';
 					}
 				} else {
-					_.confirmInnerBar.className = `fortify fortify-weak`;
+					_.confirmInnerBar.className = 'fortify fortify-weak';
 					_.confirmInnerBar.textContent = 'The passwords do not match';
 				}
 
@@ -206,9 +206,9 @@
 	 * @param {Event} e
 	 */
 	function handleSubmit(e) {
-		const _ = e.target.self;
+		var _ = e.target.self;
 		if (!_.settings.allowSubmission) {
-			const score = getPasswordScore(_.field.value);
+			var score = getPasswordScore(_.field.value);
 			if (score.number <= 60 || _.field.value != _.confirmField.value) {
 				e.preventDefault();
 			}
